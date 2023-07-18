@@ -524,7 +524,6 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
 
             _mockPipeline.LoginRequest.Should().NotBeNull();
-
             _mockPipeline.LoginRequest.Parameters["someObj"].Should().NotBeNull();
             var someObj2 = JsonConvert.DeserializeObject(_mockPipeline.LoginRequest.Parameters["someObj"], someObj.GetType());
             someObj.Should().BeEquivalentTo(someObj2);
@@ -541,7 +540,6 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             someArr2 = JsonConvert.DeserializeObject<string[]>(_mockPipeline.LoginRequest.Parameters["someArr"]);
             someArr2.Should().Contain(new[] { "a", "c", "b" });
             someArr2.Length.Should().Be(3);
-            
         }
 
         [Fact]
