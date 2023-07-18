@@ -510,8 +510,8 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
                     new Claim("display", "popup"),
                     new Claim("ui_locales", "ui_locale_value"),
                     new Claim("foo", "123foo"),
-                    new Claim("someObj", someObjJson, Microsoft.IdentityModel.JsonWebTokens.JsonClaimValueTypes.Json),
-                    new Claim("someArr", someArrJson, Microsoft.IdentityModel.JsonWebTokens.JsonClaimValueTypes.JsonArray),
+                    new Claim("someObj", JsonConvert.SerializeObject(someObj)),
+                    new Claim("someArr", JsonConvert.SerializeObject(someArr)),
             });
 
             var url = _mockPipeline.CreateAuthorizeUrl(
@@ -524,7 +524,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             var response = await _mockPipeline.BrowserClient.GetAsync(url);
 
             _mockPipeline.LoginRequest.Should().NotBeNull();
-/*
+
             _mockPipeline.LoginRequest.Parameters["someObj"].Should().NotBeNull();
             var someObj2 = JsonConvert.DeserializeObject(_mockPipeline.LoginRequest.Parameters["someObj"], someObj.GetType());
             someObj.Should().BeEquivalentTo(someObj2);
@@ -541,7 +541,7 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             someArr2 = JsonConvert.DeserializeObject<string[]>(_mockPipeline.LoginRequest.Parameters["someArr"]);
             someArr2.Should().Contain(new[] { "a", "c", "b" });
             someArr2.Length.Should().Be(3);
-            */
+            
         }
 
         [Fact]
